@@ -7,12 +7,12 @@ VALUES ('iphone +');
 
 -- PRODUITS
 INSERT INTO PRODUITS (produit_name, produit_category, produit_price, produit_stock)
-VALUES ('iphone 13', 1, 958, 10);
+VALUES ('iphone 13', 10, 958, 10);
 
 INSERT INTO PRODUITS (produit_name, produit_category, produit_price, produit_stock)
-VALUES ('iphone X', 1, 1050, 250);
+VALUES ('iphone X', 10, 1050, 250);
 
 INSERT INTO PRODUITS (produit_name, produit_category, produit_price, produit_stock)
-VALUES ('iphone 13', 2, 2000, 500);
+VALUES ('iphone 13', 20, 2000, 500);
 
 COMMIT WORK;
