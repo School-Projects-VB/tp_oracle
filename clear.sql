@@ -8,3 +8,4 @@ DROP TABLE CATEGORIES;
 
 -- VIEWS
 DROP VIEW VCategory;
+DROP VIEW VCategoryPourcents;
