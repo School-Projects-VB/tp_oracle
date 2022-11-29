@@ -16,11 +16,13 @@ CREATE USER RH_USER IDENTIFIED BY rhus3r;
 
 -- TABLESPACES
 CREATE TABLESPACE tablespace_log
-    DATAFILE 'logistic.dbf' SIZE 10M
-    ONLINE;
+    DATAFILE 'ts_log.dbf' SIZE 10M ONLINE;
 
-CREATE TEMPORARY TABLESPACE tablespace_com
-    TEMPFILE 'marketing.dbf' SIZE 10M;
+CREATE TABLESPACE tablespace_com
+    DATAFILE 'ts_com.dbf' SIZE 10M ONLINE;
 
-CREATE UNDO TABLESPACE tablespace_rh
-    DATAFILE 'rh.dbf' SIZE 10M;
+CREATE TABLESPACE tablespace_rh
+    DATAFILE 'ts_rh.dbf' SIZE 10M ONLINE;
+
+CREATE TEMPORARY TABLESPACE tablespace_temp
+    TEMPFILE 'temp.dbf' SIZE 10M;
