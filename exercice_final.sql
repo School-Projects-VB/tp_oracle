@@ -64,28 +64,3 @@ CREATE PROFILE passwords LIMIT
     PASSWORD_REUSE_MAX 2
     PASSWORD_LOCK_TIME 5
     PASSWORD_GRACE_TIME 7;
-
-/*
--- ROLES
-CREATE ROLE logistic IDENTIFIED BY logistic;
-CREATE ROLE marketing IDENTIFIED BY marketing;
-CREATE ROLE human_resources IDENTIFIED BY human_resources;
-
-ALTER USER LOG_ADMIN
-    DEFAULT ROLE logistic;
-
-ALTER USER LOG_USER
-    DEFAULT ROLE logistic;
-
-ALTER USER COM_ADMIN
-    DEFAULT ROLE marketing;
-
-ALTER USER COM_USER1
-    DEFAULT ROLE marketing;
-
-ALTER USER COM_USER2
-    DEFAULT ROLE marketing;
-
--- PRIVILEGES
-GRANT CREATE SESSION TO logistic, marketing, human_resources;
-*/
