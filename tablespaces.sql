@@ -16,3 +16,13 @@ CREATE TEMPORARY TABLESPACE EXERCICE2_TBS
 TEMPFILE 'Tbs_Temp_Exo.dbf' SIZE 10M
 AUTOEXTEND ON NEXT 20M
 MAXSIZE 100M;
+
+-- 29/11/2022
+
+CREATE TABLESPACE tbs_compta
+DATAFILE 'compta_datatbs.dbf' SIZE 10M;
+
+CREATE TABLESPACE tbs_client
+DATAFILE
+    'client_datatbs1.dbf' SIZE 10M,
+    'client_datatbs2.dbf' SIZE 10M;
