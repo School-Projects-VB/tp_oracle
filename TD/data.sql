@@ -1,0 +1,6 @@
+-- ADMIN BDD TD final - DEV B
+-- Auteur: Victor BETSCH
+-- Date de rendue maximum : 06/12/2022 à 18h
+-- Coefficient : 3
+-- Temps conseillé : 8h
+-- Sujet choisi: Plateforme de musiques (SpotHiFi)
