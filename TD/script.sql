@@ -19,7 +19,7 @@
     associés à leurs rôles respectifs (ADMIN et CLIENT) et des limites associées à leurs profils (COMMON et APP).
     Ils seront associés aux tablespaces qui leur convient.
     Les nouvelles fonctionnalités envisagées par le chef de projet impliquent la création de requêtes complexes
-    ("The trendiest album", "The frequency of music published per month", "The number of listeners per country",
+    ("The trendiest album", "The frequency of album published per month", "The number of listeners per country",
     "The most productive artists"), de vues ("Price per album", "The best song of the year", "Your number of listenings in the year",
     "Your last 10 albums listened to"), de fonctions ("The last music listened to by a user",
     "The history of the music listened to") et d'une instruction composée permettant de créer un nouvel album lorsqu'on
