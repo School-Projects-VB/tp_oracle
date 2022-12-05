@@ -26,3 +26,9 @@
     ajoute une musique avec un album non-existant.
 
 */
+
+-- CONFIGURE SGA TO 999Mo
+ALTER system SET sga_target=999M SCOPE=SPFILE;
+
+-- CONFIGURE PGA TO 200Mo per user so 200*4 = 800Mo
+ALTER system SET pga_aggregate_target=800M;
