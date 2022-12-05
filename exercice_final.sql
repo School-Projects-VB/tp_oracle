@@ -82,8 +82,6 @@ CREATE TABLE XDB.COM_FACTURES (
     id_client VARCHAR(32),
     date_facture DATE,
     montant INT
-    CONSTRAINT factures_clients_fk FOREIGN KEY (id_client)
-        REFERENCES RH_CLIENT(id)
 )
 TABLESPACE tablespace_com;
 
@@ -95,3 +93,6 @@ CREATE TABLE XDB.RH_CLIENT (
     date_creation DATE
 )
 TABLESPACE tablespace_rh;
+
+--  CONTRAINTES
+ALTER TABLE XDB.COM_FACTURES ADD CONSTRAINT FK_FACTURE_CLIENT FOREIGN KEY (id_client) REFERENCES CLIENT (id);
