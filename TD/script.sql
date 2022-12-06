@@ -5,7 +5,8 @@
 -- Temps conseillé : 8h
 -- Sujet choisi: Plateforme de musiques (SpotHiFi)
 
--- PARTIE 1
+
+--------------------- PARTIE 1 ---------------------
 
 /*
     ----- EXPLICATION -----
@@ -134,6 +135,7 @@ CREATE TABLE SYSTEM.TD_PRODUCED_BY (
         REFERENCES TD_ARTIST(ID)
 );
 
+--------------------- PARTIE 2 ---------------------
 
 -- PROFILES
 CREATE PROFILE TD_PROFILE_COMMON LIMIT
