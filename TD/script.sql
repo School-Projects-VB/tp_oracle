@@ -213,3 +213,13 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_ARTIST TO TD_USER_ARTIST;
 
 GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_AUDITOR TO TD_USER_AUDITOR;
 GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_PLAYLIST TO TD_USER_AUDITOR;
+
+-- REQUESTS
+
+-- "The trendiest album"
+
+-- "The frequency of album published per month"
+
+-- "The number of listeners per country"
+
+-- "The most productive artists"
