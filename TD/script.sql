@@ -20,8 +20,8 @@
     associés à leurs rôles respectifs (ADMIN et CLIENT) et des limites associées à leurs profils (COMMON et APP).
     Ils seront associés aux tablespaces qui leur convient.
     Les nouvelles fonctionnalités envisagées par le chef de projet impliquent la création de requêtes complexes
-    ("The trendiest album", "The frequency of album published per month", "The number of listeners per country",
-    "The most productive artists"), de vues ("Price per album", "The best song of the year", "Your number of listenings in the year",
+    ("The trendiest album", "The frequency of album published per year", "The number of auditors per country",
+    "The 3 most productive artists"), de vues ("Price per album", "The best song of the year", "Your number of listenings in the year",
     "Your last 10 albums listened to"), de fonctions ("The last music listened to by a user",
     "The history of the music listened to") et d'une instruction composée permettant de créer un nouvel album lorsqu'on
     ajoute une musique avec un album non-existant.
@@ -217,9 +217,38 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_PLAYLIST TO TD_USER_AUDITOR;
 -- REQUESTS
 
 -- "The trendiest album"
+SELECT A.NAME AS THE_TRENDIEST_ALBUM
+FROM SYSTEM.TD_LISTENING L
+INNER JOIN SYSTEM.TD_SONG S ON L.SONG_ID = S.ID
+INNER JOIN SYSTEM.TD_ALBUM A ON S.ALBUM_ID = A.ID
+WHERE L.ID IN (
+        SELECT COUNT(L.ID)
+        FROM SYSTEM.TD_LISTENING L
+        INNER JOIN SYSTEM.TD_SONG S ON L.SONG_ID = S.ID
+        INNER JOIN SYSTEM.TD_ALBUM A ON S.ALBUM_ID = A.ID
+        GROUP BY A.NAME
+    )
+GROUP BY A.NAME;
 
--- "The frequency of album published per month"
+-- "The frequency of album published per year"
+SELECT AVG(COUNT(A.ID)) AS FREQUENCY_RELEASES
+FROM SYSTEM.TD_ALBUM A
+GROUP BY EXTRACT(YEAR FROM A.RELEASE_DATE);
 
--- "The number of listeners per country"
+-- "The number of auditors per country"
+SELECT A.COUNTRY, COUNT(DISTINCT A.NAME) AS AUDITORS
+FROM SYSTEM.TD_LISTENING L
+INNER JOIN SYSTEM.TD_AUDITOR A ON A.ID = L.AUDITOR_ID
+GROUP BY A.COUNTRY;
 
--- "The most productive artists"
+-- "The 3 most productive artists"
+SELECT * FROM (
+    SELECT AR.NAME AS MOST_PRODUCTIVE_ARTISTS
+    FROM SYSTEM.TD_ARTIST AR
+    INNER JOIN SYSTEM.TD_PRODUCED_BY PB ON AR.ID = PB.ARTIST_ID
+    INNER JOIN SYSTEM.TD_SONG S ON PB.SONG_ID = S.ID
+    INNER JOIN SYSTEM.TD_ALBUM AL ON S.ALBUM_ID = AL.ID
+    GROUP BY AR.NAME
+    ORDER BY COUNT(S.NAME) DESC
+)
+WHERE ROWNUM <= 3;
