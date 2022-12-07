@@ -21,8 +21,8 @@
     Ils seront associés aux tablespaces qui leur convient.
     Les nouvelles fonctionnalités envisagées par le chef de projet impliquent la création de requêtes complexes
     ("The trendiest album", "The frequency of album published per year", "The number of auditors per country",
-    "The 3 most productive artists"), de vues ("Price per album", "The best song of the year", "Your number of listenings in the year",
-    "Your last 10 albums listened to"), de fonctions ("The last music listened to by a user",
+    "The 3 most productive artists"), de vues ("Price per album", "The best song of the year", "Number of listenings in the year",
+    "Last 5 albums listened to"), de fonctions ("The last music listened to by a user",
     "The history of the music listened to") et d'une instruction composée permettant de créer un nouvel album lorsqu'on
     ajoute une musique avec un album non-existant.
 
@@ -214,6 +214,7 @@ GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_ARTIST TO TD_USER_ARTIST;
 GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_AUDITOR TO TD_USER_AUDITOR;
 GRANT SELECT, INSERT, UPDATE, DELETE ON SYSTEM.TD_PLAYLIST TO TD_USER_AUDITOR;
 
+
 -- REQUESTS
 
 -- "The trendiest album"
@@ -252,3 +253,45 @@ SELECT * FROM (
     ORDER BY COUNT(S.NAME) DESC
 )
 WHERE ROWNUM <= 3;
+
+
+-- VUES
+
+-- "Price per album"
+CREATE OR REPLACE VIEW TD_V_PRICE_PER_ALBUM AS
+   SELECT A.NAME AS ALBUM, SUM(S.PRICE) AS TOTAL_PRICE
+    FROM SYSTEM.TD_SONG S
+    INNER JOIN SYSTEM.TD_ALBUM A ON S.ALBUM_ID = A.ID
+    GROUP BY A.NAME
+    ORDER BY A.NAME;
+
+-- "The best song of the year"
+CREATE OR REPLACE VIEW TD_V_BEST_SONG_OF_YEAR AS
+    SELECT DISTINCT S.NAME AS THE_BEST_SONG_OF_THE_YEAR
+    FROM SYSTEM.TD_LISTENING L
+    INNER JOIN SYSTEM.TD_SONG S ON L.SONG_ID = S.ID
+    WHERE S.ID = (
+        SELECT MAX(COUNT(L.ID))
+        FROM SYSTEM.TD_LISTENING L
+        INNER JOIN SYSTEM.TD_SONG S ON L.SONG_ID = S.ID
+        GROUP BY S.NAME
+    );
+
+-- "Number of listenings in the year"
+CREATE OR REPLACE VIEW TD_V_LISTENINGS_IN_YEAR AS
+    SELECT COUNT(*) AS LISTENINGS_THIS_YEAR
+    FROM SYSTEM.TD_LISTENING L
+    WHERE EXTRACT(YEAR FROM L.LISTEN_DATE) = EXTRACT(YEAR FROM SYSDATE);
+
+-- "Last 3 albums listened to"
+CREATE MATERIALIZED VIEW TD_V_LAST_ALBUMS_LISTENED
+TABLESPACE TD_TBS_CLIENTS
+REFRESH FORCE START WITH SYSDATE NEXT SYSDATE+1
+AS SELECT * FROM (
+    SELECT A.NAME
+    FROM SYSTEM.TD_LISTENING L
+    INNER JOIN SYSTEM.TD_SONG S ON L.SONG_ID = S.ID
+    INNER JOIN SYSTEM.TD_ALBUM A ON S.ALBUM_ID = A.ID
+    ORDER BY L.LISTEN_DATE DESC
+)
+WHERE ROWNUM <= 5;
