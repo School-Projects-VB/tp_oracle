@@ -22,8 +22,8 @@
     Les nouvelles fonctionnalités envisagées par le chef de projet impliquent la création de requêtes complexes
     ("The trendiest album", "The frequency of album published per year", "The number of auditors per country",
     "The 3 most productive artists"), de vues ("Price per album", "The best song of the year", "Number of listenings in the year",
-    "Last 5 albums listened to"), de fonctions ("The last music listened to by a user",
-    "The history of the music listened to") et d'une instruction composée permettant de créer un nouvel album lorsqu'on
+    "Last 5 albums listened to"), de fonctions ("The last music listened to by a auditor",
+    "The history of someone") et d'une instruction composée permettant de créer un nouvel album lorsqu'on
     ajoute une musique avec un album non-existant.
 
 */
@@ -295,3 +295,32 @@ AS SELECT * FROM (
     ORDER BY L.LISTEN_DATE DESC
 )
 WHERE ROWNUM <= 5;
+
+
+-- FUNCTIONS
+
+-- "The last music listened to by a auditor"
+CREATE OR REPLACE FUNCTION TD_LAST_MUSIC_LISTENED_BY(USER_ID NUMBER(8))
+RETURN VARCHAR(255) IS SONG_NAME VARCHAR2(255);
+BEGIN
+	SELECT S.NAME INTO SONG_NAME
+	        FROM SYSTEM.TD_SONG S
+            INNER JOIN SYSTEM.TD_LISTENING L ON S.ID = L.SONG_ID
+            INNER JOIN SYSTEM.TD_AUDITOR A ON L.AUDITOR_ID = A.ID
+	        WHERE A.ID = USER_ID
+            ORDER BY L.LISTEN_DATE DESC;
+	RETURN SONG_NAME;
+END;
+
+-- "The history of someone"
+CREATE OR REPLACE FUNCTION TD_HISTORY_OF(USER_ID IN NUMBER(8))
+RETURN VARCHAR(255) IS SONG_NAME VARCHAR2(255);
+BEGIN
+	SELECT S.NAME INTO SONG_NAME
+	        FROM SYSTEM.TD_SONG S
+            INNER JOIN SYSTEM.TD_LISTENING L ON S.ID = L.SONG_ID
+            INNER JOIN SYSTEM.TD_AUDITOR A ON L.AUDITOR_ID = A.ID
+	        WHERE A.ID = USER_ID
+            ORDER BY L.LISTEN_DATE DESC;
+	RETURN SONG_NAME;
+END;
